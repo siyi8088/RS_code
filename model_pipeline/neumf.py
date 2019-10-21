@@ -52,7 +52,7 @@ class DNN(tf.keras.layers.Layer):
 
     def compute_output_shape(self, input_shape):
         if len(self.hidden_units) > 0:
-            output_shape = input_shape[:-1] + (self.hidden_units[-1])
+            output_shape = input_shape[:-1] + (self.hidden_units[-1],)
         else:
             output_shape = input_shape
 
@@ -74,7 +74,7 @@ class NeuMF(tf.keras.Model):
 
     def __init__(self, user_size, item_size, hidden_units, embedding_size=32, activation='relu',
                  l2_reg=0.01, dropout_rate=0.5, use_bn=True, seed=1024, **kwargs):
-        super().__init__()
+        super().__init__(**kwargs)
         self.gmf_user_embedding = tf.keras.layers.Embedding(user_size, embedding_size,
                                                             embeddings_regularizer=tf.keras.regularizers.l2(l2_reg))
         self.gmf_item_embedding = tf.keras.layers.Embedding(item_size, embedding_size,
